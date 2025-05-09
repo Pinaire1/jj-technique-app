@@ -13,8 +13,8 @@ export default function Register() {
       password,
     })
 
-    if (error) {
-      setErrorMsg(error.message)
+    if (signUpError) {
+      setError(signUpError.message)
       return
     }
 
