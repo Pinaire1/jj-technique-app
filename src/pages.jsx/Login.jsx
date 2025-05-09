@@ -1,27 +1,22 @@
-import { useState } from 'react'
-import { supabase } from '../lib/supabaseClient'
+'use client';
 
-export default function Login() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [errorMsg, setErrorMsg] = useState('')
+import { Auth } from '@supabase/auth-ui-react';
+import { ThemeSupa } from '@supabase/auth-ui-shared';
+import { useSupabase } from '../components/SupabaseProvider';
 
-  const handleLogin = async () => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
-    if (error) setErrorMsg(error.message)
-    else window.location.href = '/dashboard'
-  }
+export default function LoginPage() {
+  const { supabase } = useSupabase();
 
   return (
-    <div>
-      <h2>Login</h2>
-      {errorMsg && <p style={{ color: 'red' }}>{errorMsg}</p>}
-      <input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-      <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
-      <button onClick={handleLogin}>Log In</button>
+    <div className="login" style={{ maxWidth: 400, margin: '0 auto', paddingTop: 40 }}>
+      <Auth
+        supabaseClient={supabase}
+        appearance={{ theme: ThemeSupa }}
+        providers={[]}
+        theme="dark"
+        redirectTo="/dashboard"
+      />
     </div>
-  )
+  );
 }
+
